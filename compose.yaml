@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:15
+    container_name: sports-court-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sports_user
+      POSTGRES_PASSWORD: sports_password
+      POSTGRES_DB: sports_booking
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sports_user -d sports_booking"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
